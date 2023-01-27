@@ -17,6 +17,9 @@ class Question(db.Model):
     answer = db.relationship(
         "Answer", backref="q_to_ans", lazy=True, foreign_keys="Answer.question_id"
     )
+    is_answer = db.relationship(
+        "Is_answered", backref="q_answered", lazy=True, foreign_keys="Is_answered.question_id"
+    )
 
     # This is the representation of the questions table
     def __repr__(self):

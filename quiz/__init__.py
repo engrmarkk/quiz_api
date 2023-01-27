@@ -1,6 +1,6 @@
 from .extensions import db, migrate, jwt, app
 from .config import config_object
-from .models import Question, Options, Answer, Users
+from .models import Question, Options, Answer, Users, Is_answered
 
 
 # This is the function that creates the app
@@ -24,7 +24,8 @@ def create_app(configure=config_object["appcon"]):
                 "Question": Question,
                 "Options": Options,
                 "Answer": Answer,
-                "Users": Users
+                "Users": Users,
+                "Is_answered": Is_answered
                 }
 
     return app
