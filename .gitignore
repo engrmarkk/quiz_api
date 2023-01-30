@@ -73,7 +73,8 @@ docs/_build/
 
 # PyBuilder
 target/
-
+migrations
+quiz.sqlite3
 # Jupyter Notebook
 .ipynb_checkpoints
 
