@@ -2,10 +2,11 @@ from flask_restx import Resource, abort
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
-from ..schemas import user_namespace, login_model, register
+from ..schemas import user_namespace, login_model, register, get_user_model
 from ..models import Users
 from sqlalchemy import or_
 from ..extensions import db
+from http import HTTPStatus
 
 
 @user_namespace.route("/register")
@@ -43,3 +44,10 @@ class login(Resource):
             refresh_token = create_refresh_token(identity=user.id)
             return {"access_token": access_token, "refresh_token": refresh_token}
         abort(400, message="incorrect username/password")
+
+
+@user_namespace.route("/users")
+class getAllUsers(Resource):
+    @user_namespace.marshal_list_with(get_user_model)
+    def get(self):
+        return Users.query.all(), HTTPStatus.OK
