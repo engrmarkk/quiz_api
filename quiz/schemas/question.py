@@ -1,6 +1,6 @@
 from flask_restx import Namespace, fields
-from answer import answer_model
-from option import option_model
+from .answer import answer_model
+from .option import option_model
 
 question_namespace = Namespace("question", description="question endpoint")
 
