@@ -28,3 +28,11 @@ class Users(db.Model):
     def __repr__(self):
         # This returns the username
         return f"{self.username}"
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.get_or_404(id)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

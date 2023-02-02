@@ -1,9 +1,7 @@
-from .extensions import db, migrate, jwt, app
+from .extensions import db, migrate, jwt, app, api
 from .config import config_object
 from .models import Question, Options, Answer, Users, Is_answered
-from flask_restx import Api
-from .auth.users import user_namespace
-
+from .schemas import user_namespace, question_namespace, option_namespace, answer_namespace
 
 
 # This is the function that creates the app
@@ -14,10 +12,14 @@ def create_app(configure=config_object["appcon"]):
 
     # This line of code initializes the extensions imported above
     db.init_app(app)
-    api=Api(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    api.init_app(app)
     api.add_namespace(user_namespace)
+    api.add_namespace(question_namespace)
+    api.add_namespace(answer_namespace)
+    api.add_namespace(option_namespace)
+
     # This line of code imports the routes from the routes package
     @app.shell_context_processor
     # This function returns the database, Question, Options, and Answer models

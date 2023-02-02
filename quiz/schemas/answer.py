@@ -1,7 +1,11 @@
-from marshmallow import fields,Schema
-class plainAnswerSchema(Schema):
-    id=fields.Int(dump_only=True)
-    answer=fields.Str(required=True)
-    
-class AnswerSchema(plainAnswerSchema):
-    question_id=fields.Int(load_only=True,required=True)
+from flask_restx import Namespace, fields
+
+answer_namespace = Namespace("answer", description="answer endpoint")
+
+answer_model = answer_namespace.model(
+    "Answer", {
+        "id": fields.Integer(dump_only=True),
+        "answer": fields.String(required=True, description="the answer to a question"),
+        "question_id": fields.Integer(required=True, load_only=True, description="the question's id")
+    }
+)

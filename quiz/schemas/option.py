@@ -1,13 +1,15 @@
-from marshmallow import fields,Schema
+from flask_restx import Namespace, fields
 
-class plainOptionSchema(Schema):
-    id=fields.Int(dump_only=True)
-    a=fields.Str(required=True)
-    b=fields.Str(required=True)
-    c=fields.Str(required=True)
-    d=fields.Str(required=True)
-    e=fields.Str(required=True)
+option_namespace = Namespace("option", description="option endpoint")
 
-class OptionSchema(plainOptionSchema):
-    question_id=fields.Int(load_only=True,required=True)
-    
+option_model = option_namespace.model(
+    "Option", {
+        "id": fields.Integer(dump_only=True),
+        "a": fields.String(required=True, description="option A"),
+        "b": fields.String(required=True, description="option B"),
+        "c": fields.String(required=True, description="option C"),
+        "d": fields.String(required=True, description="option D"),
+        "e": fields.String(required=True, description="option E"),
+        "question_id": fields.Integer(required=True, load_only=True, description="the question's id"),
+    }
+)
