@@ -1,8 +1,8 @@
 from .extensions import db, migrate, jwt, app, api
 from .config import config_object
 from .models import Question, Options, Answer, Users, Is_answered
-from .schemas import question_namespace, option_namespace, answer_namespace
-from .auth.users import user_namespace
+from .auth import user_namespace
+from .resources import *
 
 
 # This is the function that creates the app
@@ -18,8 +18,8 @@ def create_app(configure=config_object["appcon"]):
     api.init_app(app)
     api.add_namespace(user_namespace, path="/user")
     api.add_namespace(question_namespace)
-    api.add_namespace(answer_namespace)
     api.add_namespace(option_namespace)
+    # api.add_namespace(answer_namespace)
 
     # This line of code imports the routes from the routes package
     @app.shell_context_processor

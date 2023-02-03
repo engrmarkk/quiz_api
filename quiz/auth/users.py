@@ -1,5 +1,4 @@
 from flask_restx import Resource, abort
-
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 from ..schemas import user_namespace, login_model, register, get_user_model
@@ -16,20 +15,19 @@ class UserRegister(Resource):
     def post(self):
         data = user_namespace.payload
         if Users.query.filter(
-            or_(Users.username == data["username"], Users.email == data["email"])
+            or_(Users.username == data["username"].lower(), Users.email == data["email"].lower())
         ).first():
             abort(400, message="this username/email is already in the database")
 
         new_user = Users(
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            username=data["username"],
-            email=data["email"],
+            first_name=data["first_name"].lower(),
+            last_name=data["last_name"].lower(),
+            username=data["username"].lower(),
+            email=data["email"].lower(),
             password=generate_password_hash(data["password"]),
         )
-        db.session.add(new_user)
-        db.session.commit()
-        return new_user
+        new_user.save()
+        return new_user, HTTPStatus.CREATED
         # return {"message":"user has been registered, you can login in now"}
 
 
@@ -38,7 +36,7 @@ class login(Resource):
     @user_namespace.expect(login_model)
     def post(self):
         data = user_namespace.payload
-        user = Users.query.filter(Users.username == data["username"]).first()
+        user = Users.query.filter(Users.username == data["username"].lower()).first()
         if user and check_password_hash(user.password, data["password"]):
             access_token = create_access_token(identity=user.id)
             refresh_token = create_refresh_token(identity=user.id)
@@ -51,3 +49,27 @@ class getAllUsers(Resource):
     @user_namespace.marshal_list_with(get_user_model)
     def get(self):
         return Users.query.all(), HTTPStatus.OK
+
+
+@user_namespace.route("/user/<int:user_id>")
+class getEachUser(Resource):
+    @user_namespace.marshal_with(get_user_model)
+    def get(self, user_id):
+        user = Users.get_by_id(user_id)
+        return user, HTTPStatus.OK
+
+    def delete(self, user_id):
+        user = Users.get_by_id(user_id)
+        db.session.delete(user)
+        db.session.commit()
+        return {"message": "User deleted"}
+
+    def patch(self, user_id):
+        user = Users.get_by_id(user_id)
+        if user.is_admin:
+            user.is_admin = 0
+            db.session.commit()
+            return {"message": "User has been demoted from being an admin"}
+        user.is_admin = 1
+        db.session.commit()
+        return {"message": "User has been promoted to be an admin"}

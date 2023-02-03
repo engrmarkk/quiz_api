@@ -26,3 +26,11 @@ class Question(db.Model):
     def __repr__(self):
         # This returns the question
         return f"{self.question}"
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.get_or_404(id)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

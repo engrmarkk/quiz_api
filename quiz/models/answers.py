@@ -1,4 +1,13 @@
 from ..extensions import db
+from enum import Enum
+
+
+class Answer_enum(Enum):
+    A = 'a'
+    B = 'b'
+    C = 'c'
+    D = 'd'
+    E = 'e'
 
 
 class Answer(db.Model):
@@ -7,7 +16,7 @@ class Answer(db.Model):
     # This is the primary key for the answers table
     id = db.Column(db.Integer, primary_key=True)
     # This is the answer column for the answers table
-    answer = db.Column(db.String(10), nullable=False)
+    answer = db.Column(db.Enum(Answer_enum))
     # This is the is_correct column for the answers table
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False)
 
