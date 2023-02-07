@@ -48,7 +48,8 @@ class login(Resource):
 class getAllUsers(Resource):
     @user_namespace.marshal_list_with(get_user_model)
     def get(self):
-        return Users.query.all(), HTTPStatus.OK
+        users = Users.query.all()
+        return users, HTTPStatus.OK
 
 
 @user_namespace.route("/user/<int:user_id>")
