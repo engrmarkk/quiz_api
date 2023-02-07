@@ -18,7 +18,7 @@ question_with_option = question_namespace.model(
     "Question_answer", {
         "id": fields.Integer(dump_only=True),
         "question": fields.String(required=True, description="the question"),
-        "option": fields.Nested(option_model, description="question options")
+        "options": fields.Nested(option_model, description="question options")
     }
 )
 
@@ -31,6 +31,6 @@ question_with_option_model = question_namespace.model(
         "id": fields.Integer(dump_only=True),
         "question": fields.String(required=True, description="the question"),
         "answer": fields.Nested(answer_model, description="question answer"),
-        "option": fields.Nested(option_model, description="question options")
+        "options": fields.Nested(option_model, description="question options")
     }
 )
