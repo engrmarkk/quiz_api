@@ -5,7 +5,7 @@ question_namespace = Namespace("question", description="question endpoint")
 question_model = question_namespace.model(
     "Question", {
         "id": fields.Integer(dump_only=True),
-        "question": fields.Integer(required=True, description="the question")
+        "question": fields.String(required=True, description="the question")
     }
 )
 

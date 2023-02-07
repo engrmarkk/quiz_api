@@ -18,6 +18,7 @@ class addAndGetQuestions(Resource):
             c=data["c"].lower(),
             d=data["d"].lower(),
             e=data["e"].lower(),
+            question_id=data["question_id"]
         )
         option.save()
         return option, HTTPStatus.CREATED

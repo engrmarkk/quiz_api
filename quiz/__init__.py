@@ -19,6 +19,7 @@ def create_app(configure=config_object["appcon"]):
     api.add_namespace(user_namespace, path="/user")
     api.add_namespace(question_namespace)
     api.add_namespace(option_namespace)
+    api.add_namespace(answer_namespace)
     # api.add_namespace(answer_namespace)
 
     # This line of code imports the routes from the routes package
