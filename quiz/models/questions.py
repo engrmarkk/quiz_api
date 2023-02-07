@@ -11,15 +11,15 @@ class Question(db.Model):
     question = db.Column(db.Text, nullable=False)
     # This is the relationship between the questions table and the options table
     options = db.relationship(
-        "Options", backref="question", lazy=True, foreign_keys="Options.question_id"
+        "Options", backref="question", lazy=True, cascade="all, delete", foreign_keys="Options.question_id"
     )
     # This is the relationship between the questions table and the answers table
     answer = db.relationship(
-        "Answer", backref="q_to_ans", lazy=True, foreign_keys="Answer.question_id"
+        "Answer", backref="q_to_ans", lazy=True, cascade="all, delete", foreign_keys="Answer.question_id"
     )
     # This is the relationship between the questions table and the is_answered table
     is_answer = db.relationship(
-        "Is_answered", backref="q_answered", lazy=True, foreign_keys="Is_answered.question_id"
+        "Is_answered", backref="q_answered", lazy=True, cascade="all, delete", foreign_keys="Is_answered.question_id"
     )
 
     # This is the representation of the questions table
