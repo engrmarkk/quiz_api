@@ -16,9 +16,9 @@ class Answer(db.Model):
     # This is the primary key for the answers table
     id = db.Column(db.Integer, primary_key=True)
     # This is the answer column for the answers table
-    answer = db.Column(db.Enum(Answer_enum), server_default="")
+    answer = db.Column(db.Enum(Answer_enum))
     # This is the is_correct column for the answers table
-    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False,unique=True)
 
     # This is the representation of the answers table
     def __repr__(self):
