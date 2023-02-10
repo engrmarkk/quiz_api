@@ -21,12 +21,17 @@ class UserRegister(Resource):
         ).first():
             abort(400, message="this username/email is already in the database")
 
+        if len(Users.query.all()) == 0:
+            is_admin = 1
+        else:
+            is_admin = 0
         new_user = Users(
             first_name=data["first_name"].lower(),
             last_name=data["last_name"].lower(),
             username=data["username"].lower(),
             email=data["email"].lower(),
             password=generate_password_hash(data["password"]),
+            is_admin=is_admin
         )
         new_user.save()
         return new_user, HTTPStatus.CREATED

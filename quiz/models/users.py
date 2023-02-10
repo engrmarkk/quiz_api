@@ -49,7 +49,7 @@ def admin_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         user_record = Users.query.get(get_jwt_identity())
-        if not user_record.is_admin:
+        if not user_record or user_record.is_admin:
             abort(401, "Admin access required")
         return func(*args, **kwargs)
     return wrapper
