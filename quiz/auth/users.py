@@ -21,10 +21,15 @@ class UserRegister(Resource):
         ).first():
             abort(400, message="this username/email is already in the database")
 
+        # check if the user is the first user to register
+        # if yes, make him an admin
         if len(Users.query.all()) == 0:
             is_admin = 1
+        # if no, make him a normal user
         else:
             is_admin = 0
+
+        # create a new user
         new_user = Users(
             first_name=data["first_name"].lower(),
             last_name=data["last_name"].lower(),
