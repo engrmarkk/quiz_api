@@ -26,7 +26,7 @@ def create_app(configure=config_object["appcon"]):
     # api.add_namespace(answer_namespace)
 
     @jwt.expired_token_loader
-    def handle_expired_token_error(expired_token):
+    def handle_expired_token_error(expired_token, func):
         return jsonify({"message": "Token has expired"}), HTTPStatus.UNAUTHORIZED
 
     @jwt.unauthorized_loader

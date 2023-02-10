@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, \
     jwt_required, get_jwt_identity
 from ..schemas import user_namespace, login_model, register, get_user_model
-from ..models import Users
+from ..models import Users, admin_required
 from sqlalchemy import or_
 from ..extensions import db
 from http import HTTPStatus
@@ -50,6 +50,7 @@ class login(Resource):
 class getAllUsers(Resource):
     @jwt_required()
     @user_namespace.marshal_list_with(get_user_model)
+    @admin_required
     def get(self):
         users = Users.query.all()
         return users, HTTPStatus.OK
