@@ -54,7 +54,9 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
-    </li>    
+      <li>
+      <a href="#project-structure">Project Structure</a>
+    </li>
     <!-- <li><a href="#shots">Shots</a></li> -->
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -149,7 +151,12 @@ Python3: [Get Python](https://www.python.org/downloads/)
    http://127.0.0.1:5000/
    ```
 
-Project structure:
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Project structure
    ```
    .
    ├── README.md
