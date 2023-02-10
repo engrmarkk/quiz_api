@@ -149,6 +149,47 @@ Python3: [Get Python](https://www.python.org/downloads/)
    http://127.0.0.1:5000/
    ```
 
+Project structure:
+      ```
+      .
+      ├── README.md
+      ├── app.py
+      ├── .env
+      ├── .gitignore
+      ├── LICENSE
+      ├── quiz
+      │   ├── __init__.py
+      │   ├── auth
+      │   │   ├── __init__.py
+      │   │   ├── users.py
+      │   └── config
+      │   │   ├── __init__.py
+      │   │    ├── configuration.py
+      │   └── extensions
+      │   │   ├── __init__.py
+      │   └── models
+      │   │   ├── __init__.py
+      │   │   ├── answers.py
+      │   │   ├── is_answered.py
+      │   │   ├── options.py
+      │   │   ├── questions.py
+      │   │   ├── users.py
+      │   └── resources
+      │   │   ├── __init__.py
+      │   │   ├── answer.py
+      │   │   ├── options.py
+      │   │   ├── questions.py
+      │   └── schemas
+      │   │   ├── __init__.py
+      │   │   ├── answer.py
+      │   │   ├── option.py
+      │   │   ├── question.py
+      │   │   ├── user.py
+      ├── your_venv_name
+      ├── requirements.txt
+      └── run.py
+      ```  
+
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
