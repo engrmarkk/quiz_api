@@ -3,10 +3,12 @@ from ..schemas import option_model, option_namespace, option_with_question
 from ..models import Options
 from http import HTTPStatus
 from ..extensions import db
+from flask_jwt_extended import jwt_required
 
 
 @option_namespace.route("/option")
 class addAndGetQuestions(Resource):
+    @jwt_required()
     @option_namespace.expect(option_model)
     @option_namespace.marshal_with(option_with_question)
     def post(self):
@@ -23,6 +25,7 @@ class addAndGetQuestions(Resource):
         option.save()
         return option, HTTPStatus.CREATED
 
+    @jwt_required()
     @option_namespace.marshal_list_with(option_with_question)
     def get(self):
         questions = Options.query.all()
@@ -31,11 +34,13 @@ class addAndGetQuestions(Resource):
 
 @option_namespace.route("/option/<int:option_id>")
 class eachOptions(Resource):
+    @jwt_required()
     @option_namespace.marshal_with(option_with_question)
     def get(self, option_id):
         question = Options.get_by_id(option_id)
         return question, HTTPStatus.OK
 
+    @jwt_required()
     @option_namespace.expect(option_model)
     @option_namespace.marshal_with(option_with_question)
     def put(self, option_id):
@@ -53,10 +58,11 @@ class eachOptions(Resource):
         if data["e"]:
             option_to_update.e = data["e"].lower()
         db.session.commit()
-        return option_to_update
+        return option_to_update, HTTPStatus.OK
 
+    @jwt_required()
     def delete(self, option_id):
         option_to_delete = Options.get_by_id(option_id)
         db.session.delete(option_to_delete)
         db.session.commit()
-        return {"message": "Option deleted"}
+        return {"message": "Option deleted"}, HTTPStatus.OK

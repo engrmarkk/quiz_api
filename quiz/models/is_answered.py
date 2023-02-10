@@ -8,7 +8,7 @@ class Is_answered(db.Model):
     # This is the primary key for the is_answered table
     id = db.Column(db.Integer, primary_key=True)
     # This is the user_id column for the is_answered table
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False, default=0)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     # This is the relationship between the is_answered table and the questions table
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False)
 

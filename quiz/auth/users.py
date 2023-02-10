@@ -1,11 +1,13 @@
 from flask_restx import Resource, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import create_access_token, create_refresh_token, \
+    jwt_required, get_jwt_identity
 from ..schemas import user_namespace, login_model, register, get_user_model
 from ..models import Users
 from sqlalchemy import or_
 from ..extensions import db
 from http import HTTPStatus
+from datetime import timedelta
 
 
 @user_namespace.route("/register")
@@ -46,6 +48,7 @@ class login(Resource):
 
 @user_namespace.route("/users")
 class getAllUsers(Resource):
+    @jwt_required()
     @user_namespace.marshal_list_with(get_user_model)
     def get(self):
         users = Users.query.all()
@@ -54,17 +57,20 @@ class getAllUsers(Resource):
 
 @user_namespace.route("/user/<int:user_id>")
 class getEachUser(Resource):
+    @jwt_required()
     @user_namespace.marshal_with(get_user_model)
     def get(self, user_id):
         user = Users.get_by_id(user_id)
         return user, HTTPStatus.OK
 
+    @jwt_required()
     def delete(self, user_id):
         user = Users.get_by_id(user_id)
         db.session.delete(user)
         db.session.commit()
         return {"message": "User deleted"}
 
+    @jwt_required()
     def patch(self, user_id):
         user = Users.get_by_id(user_id)
         if user.is_admin:
@@ -74,3 +80,16 @@ class getEachUser(Resource):
         user.is_admin = 1
         db.session.commit()
         return {"message": "User has been promoted to be an admin"}
+
+
+@user_namespace.route("/refresh")
+class RefreshToken(Resource):
+
+    @jwt_required(refresh=True)
+    def post(self):
+        current_user = get_jwt_identity()
+        new_token = create_access_token(
+            identity=current_user, fresh=False, expires_delta=timedelta(days=5)
+        )
+
+        return {"access_token": new_token}

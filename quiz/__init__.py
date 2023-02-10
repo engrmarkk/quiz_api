@@ -3,6 +3,7 @@ from .config import config_object
 from .models import Question, Options, Answer, Users, Is_answered
 from .auth import user_namespace
 from .resources import *
+from datetime import timedelta
 
 
 # This is the function that creates the app
@@ -14,8 +15,14 @@ def create_app(configure=config_object["appcon"]):
     # This line of code initializes the extensions imported above
     db.init_app(app)
     migrate.init_app(app, db)
+
+    app.config["JWT_SECRET_KEY"] = "overstuffed"
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+
     jwt.init_app(app)
     api.init_app(app)
+
     api.add_namespace(user_namespace, path="/user")
     api.add_namespace(question_namespace)
     api.add_namespace(option_namespace)

@@ -23,8 +23,11 @@ class Users(db.Model):
     password = db.Column(db.Text, nullable=False)
     # This is the is_admin column for the users table
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
-    answer=db.relationship("Is_answered",backref="user",lazy="dynamic")
+    answer = db.relationship(
+        "Is_answered", backref="user", lazy=True, cascade="all, delete", foreign_keys="Is_answered.question_id"
+    )
     # This is the representation of the users table
+
     def __repr__(self):
         # This returns the username
         return f"{self.username}"
