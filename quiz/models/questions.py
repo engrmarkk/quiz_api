@@ -19,7 +19,8 @@ class Question(db.Model):
     )
     # This is the relationship between the questions table and the is_answered table
     is_answer = db.relationship(
-        "Is_answered", backref="q_answered", lazy=True, cascade="all, delete", foreign_keys="Is_answered.question_id"
+        "Is_answered", backref="q_answered", lazy=True,
+        cascade="all, delete", foreign_keys="Is_answered.question_id"
     )
 
     # This is the representation of the questions table

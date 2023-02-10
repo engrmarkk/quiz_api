@@ -16,6 +16,7 @@ class Config:
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     # This is the secret key for the jwt
     JWT_SECRET_KEY = config("JWT_SECRET_KEY")
+    PROPAGATE_EXCEPTIONS = True
 
 
 class AppConfig(Config):
