@@ -54,6 +54,7 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#project-structure">Project Structure</a></li>
+         <li><a href="#user's-endpoints">User's endpoints</a></li>
       </ul>
     <!-- <li><a href="#shots">Shots</a></li> -->
     <li><a href="#contact">Contact</a></li>
