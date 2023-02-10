@@ -329,9 +329,9 @@ This project was made possible by:
 [license-shield]: https://img.shields.io/github/license/engrmarkk/Quiz_Api.svg?style=for-the-badge
 [license-url]: https://github.com/engrmarkk/Quiz_Api/blob/main/LICENSE.txt
 [twitter-shield]: https://img.shields.io/badge/-@iamengrmark-1ca0f1?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/iamengrmark
-[twitter-shield2]: https://img.shields.io/badge/-@b_lovedth-1ca0f1?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/b_lovedth
+[twitter-shield2]: https://img.shields.io/badge/-@GabrielKalango-1ca0f1?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/GabrielKalango
 [twitter-url]: https://twitter.com/iamengrmark
-[twitter-url2]: https://twitter.com/b_lovedth
+[twitter-url2]: https://twitter.com/GabrielKalango
 [Quiz_Api-screenshot]: static/images/screen-light.png
 [Quiz_Api-screenshot2]: static/images/screen-dark.png
 [python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
