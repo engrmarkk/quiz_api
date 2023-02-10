@@ -53,10 +53,8 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
       </ul>
-      <li>
-      <a href="#project-structure">Project Structure</a>
-    </li>
     <!-- <li><a href="#shots">Shots</a></li> -->
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -150,13 +148,8 @@ Python3: [Get Python](https://www.python.org/downloads/)
     ```sh
    http://127.0.0.1:5000/
    ```
-
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
----
-
-## Project structure
+   <br>
+### Project structure
    ```
    .
    ├── README.md
@@ -196,6 +189,80 @@ Python3: [Get Python](https://www.python.org/downloads/)
    ├── requirements.txt
    └── run.py
    ```  
+
+
+### User's endpoints
+<br>
+POST (Register) http://127.0.0.1:5000/user/register
+
+REQUEST
+```json
+{
+  "email": "mark@mark.com",
+  "password": "password",
+  "first_name": "mark",
+  "last_name": "mark",
+  "username": "mark"
+}
+```
+RESPONSE
+```json
+{
+    "id": 1,
+    "email": "mark@mark.com",
+    "first_name": "mark",
+    "last_name": "mark",
+    "username": "mark"
+}
+```
+POST (Login) http://127.0.0.1:5000/users/login
+
+REQUEST
+```json
+{
+  "username": "mark",
+  "password": "password"
+}
+```
+RESPONSE
+```json
+{
+    "access_token": "eyJhbGciOiJIUzIEyMjMtNj...................",
+    "refresh_token": "eyJhbGciOiJIUzLyADmyXA...................."
+}
+```
+GET (Get all users) http://127.0.0.1:5000/user/users
+
+RESPONSE
+```json
+[
+    {
+        "id": 1,
+        "email": "mark@mark.com",
+        "first_name": "mark",
+        "last_name": "mark",
+        "username": "mark",
+        "scores": 0,
+        "is_admin": false,
+        "taken": false
+    }
+]
+```
+GET (Get specific user) http://127.0.0.1:5000/user/user/1
+
+RESPONSE
+```json
+{
+    "id": 1,
+    "email": "mark@mark.com",
+    "first_name": "mark",
+    "last_name": "mark",
+    "username": "mark",
+    "scores": 0,
+    "is_admin": false,
+    "taken": false
+}
+```
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
