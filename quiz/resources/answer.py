@@ -36,7 +36,7 @@ class chooseAnswer(Resource):
                     answered=Is_answered(user_id=user_id,question_id=question_id)
                     db.session.add(answered)
                     db.session.commit()
-                    
+                     
                     user.scores+=10
                     db.session.commit() 
                     return {"message":"answer is correct"}
