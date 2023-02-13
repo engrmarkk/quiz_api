@@ -1,4 +1,7 @@
 from ..extensions import db
+from functools import wraps
+from flask_jwt_extended import get_jwt_identity
+from flask_restx import abort
 
 
 # This is the model for the users table
@@ -23,8 +26,12 @@ class Users(db.Model):
     password = db.Column(db.Text, nullable=False)
     # This is the is_admin column for the users table
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
-    answer=db.relationship("Is_answered",backref="user",lazy="dynamic")
+    answer = db.relationship(
+        "Is_answered", backref="user_", lazy=True,
+        cascade="all, delete", foreign_keys="Is_answered.user_id"
+    )
     # This is the representation of the users table
+
     def __repr__(self):
         # This returns the username
         return f"{self.username}"
@@ -36,3 +43,13 @@ class Users(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+
+def admin_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        user_record = Users.query.get(get_jwt_identity())
+        if not user_record or user_record.is_admin:
+            abort(401, "Admin access required")
+        return func(*args, **kwargs)
+    return wrapper

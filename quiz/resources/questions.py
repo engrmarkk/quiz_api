@@ -6,10 +6,12 @@ from ..schemas import (
 from ..models import Question
 from http import HTTPStatus
 from ..extensions import db
+from flask_jwt_extended import jwt_required
 
 
 @question_namespace.route("/question")
 class addAndGetQuestions(Resource):
+    @jwt_required()
     @question_namespace.expect(question_model)
     @question_namespace.marshal_with(question_model)
     def post(self):
@@ -19,7 +21,8 @@ class addAndGetQuestions(Resource):
         question.save()
         return question, HTTPStatus.CREATED
 
-    @question_namespace.marshal_list_with(question_with_option_model)
+    @jwt_required()
+    @question_namespace.marshal_with(question_with_option_model)
     def get(self):
         questions = Question.query.all()
         return questions, HTTPStatus.OK
@@ -27,11 +30,13 @@ class addAndGetQuestions(Resource):
 
 @question_namespace.route("/question/<int:question_id>")
 class eachQuestions(Resource):
+    @jwt_required()
     @question_namespace.marshal_with(question_with_option_model)
     def get(self, question_id):
         question = Question.get_by_id(question_id)
         return question, HTTPStatus.OK
-    
+
+    @jwt_required()
     @question_namespace.expect(question_model)
     @question_namespace.marshal_with(question_model)
     def patch(self, question_id):
@@ -42,6 +47,7 @@ class eachQuestions(Resource):
         db.session.commit()
         return question_to_update
 
+    @jwt_required()
     def delete(self, question_id):
         question_to_delete = Question.get_by_id(question_id)
         db.session.delete(question_to_delete)

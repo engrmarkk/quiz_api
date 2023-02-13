@@ -3,6 +3,8 @@ from .config import config_object
 from .models import Question, Options, Answer, Users, Is_answered
 from .auth import user_namespace
 from .resources import *
+from flask import jsonify
+from http import HTTPStatus
 
 
 # This is the function that creates the app
@@ -16,11 +18,20 @@ def create_app(configure=config_object["appcon"]):
     migrate.init_app(app, db)
     jwt.init_app(app)
     api.init_app(app)
+
     api.add_namespace(user_namespace, path="/user")
     api.add_namespace(question_namespace)
     api.add_namespace(option_namespace)
     api.add_namespace(answer_namespace)
     # api.add_namespace(answer_namespace)
+
+    @jwt.expired_token_loader
+    def handle_expired_token_error(expired_token, func):
+        return jsonify({"message": "Token has expired"}), HTTPStatus.UNAUTHORIZED
+
+    @jwt.unauthorized_loader
+    def handle_unauthorized_error(unauthorized_error):
+        return jsonify({"message": "Authorization header is missing"}), HTTPStatus.UNAUTHORIZED
 
     # This line of code imports the routes from the routes package
     @app.shell_context_processor
