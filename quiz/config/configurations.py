@@ -28,5 +28,15 @@ class AppConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "quiz.sqlite3")
 
 
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+
+
+
+
 # This is the dictionary that contains the configuration object
-config_object = {"appcon": AppConfig}
+config_object = {"appcon": AppConfig,
+"testcon":TestConfig}
