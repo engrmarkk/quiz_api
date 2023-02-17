@@ -5,7 +5,8 @@ from ..schemas import (
     answer_namespace,
     answer_question_options,
     correctANSWER_model,
-    enum
+    enum,
+    update_answer_model
 )
 from http import HTTPStatus
 from ..extensions import db
@@ -33,6 +34,22 @@ class InputAnswer(Resource):
         db.session.commit()
         return answer_, HTTPStatus.CREATED
 
+
+@answer_namespace.route("/answer/<int:answer_id>")
+class EachAnswer(Resource):
+    @jwt_required()
+    @answer_namespace.expect(update_answer_model)
+    @answer_namespace.marshal_with(update_answer_model)
+    @admin_required
+    def patch(self, answer_id):
+        data = answer_namespace.payload
+        answer_ = Answer.query.filter_by(id=answer_id).first()
+        if data["answer"]:
+            answer_.answer = data["answer"].upper()
+
+        db.session.commit()
+        return answer_
+        
 
 @answer_namespace.route("/question/answer")
 class chooseAnswer(Resource):
