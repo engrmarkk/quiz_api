@@ -1,6 +1,6 @@
 from flask_restx import Resource
 from ..schemas import option_model, option_namespace, option_with_question
-from ..models import Options
+from ..models import Options, admin_required
 from http import HTTPStatus
 from ..extensions import db
 from flask_jwt_extended import jwt_required
@@ -11,6 +11,7 @@ class addAndGetQuestions(Resource):
     @jwt_required()
     @option_namespace.expect(option_model)
     @option_namespace.marshal_with(option_with_question)
+    @admin_required
     def post(self):
         data = option_namespace.payload
 
@@ -27,6 +28,7 @@ class addAndGetQuestions(Resource):
 
     @jwt_required()
     @option_namespace.marshal_list_with(option_with_question)
+    @admin_required
     def get(self):
         questions = Options.query.all()
         return questions, HTTPStatus.OK
@@ -36,6 +38,7 @@ class addAndGetQuestions(Resource):
 class eachOptions(Resource):
     @jwt_required()
     @option_namespace.marshal_with(option_with_question)
+    @admin_required
     def get(self, option_id):
         question = Options.get_by_id(option_id)
         return question, HTTPStatus.OK
@@ -43,6 +46,7 @@ class eachOptions(Resource):
     @jwt_required()
     @option_namespace.expect(option_model)
     @option_namespace.marshal_with(option_with_question)
+    @admin_required
     def put(self, option_id):
         option_to_update = Options.get_by_id(option_id)
         data = option_namespace.payload
@@ -61,6 +65,7 @@ class eachOptions(Resource):
         return option_to_update, HTTPStatus.OK
 
     @jwt_required()
+    @admin_required
     def delete(self, option_id):
         option_to_delete = Options.get_by_id(option_id)
         db.session.delete(option_to_delete)

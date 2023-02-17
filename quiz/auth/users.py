@@ -70,11 +70,13 @@ class getAllUsers(Resource):
 class getEachUser(Resource):
     @jwt_required()
     @user_namespace.marshal_with(get_user_model)
+    @admin_required
     def get(self, user_id):
         user = Users.get_by_id(user_id)
         return user, HTTPStatus.OK
 
     @jwt_required()
+    @admin_required
     def delete(self, user_id):
         user = Users.get_by_id(user_id)
         db.session.delete(user)
@@ -82,6 +84,7 @@ class getEachUser(Resource):
         return {"message": "User deleted"}
 
     @jwt_required()
+    @admin_required
     def patch(self, user_id):
         user = Users.get_by_id(user_id)
         if user.is_admin:

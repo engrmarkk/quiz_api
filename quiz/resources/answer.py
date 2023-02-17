@@ -9,7 +9,7 @@ from ..schemas import (
 )
 from http import HTTPStatus
 from ..extensions import db
-from ..models import Answer, Is_answered, Question, Users
+from ..models import Answer, Is_answered, Question, Users, admin_required
 from sqlalchemy import and_
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -19,6 +19,7 @@ class InputAnswer(Resource):
     @jwt_required()
     @answer_namespace.expect(answer_model)
     @answer_namespace.marshal_with(answer_question_options)
+    @admin_required
     def post(self):
         data = answer_namespace.payload
         answer = Answer.query.filter_by(question_id=data["question_id"]).first()
@@ -63,9 +64,9 @@ class chooseAnswer(Resource):
                     db.session.add(answered)
                     db.session.commit()
                     
-                    user.scores+=10
+                    user.scores += 10
                     db.session.commit() 
-                    return {"message":"answer is correct"}
+                    return {"message": "answer is correct"}
                 else:
                     answered = Is_answered(user_id=user_id,
                                            question_id=data["question_id"])

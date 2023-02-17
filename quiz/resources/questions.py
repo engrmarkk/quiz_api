@@ -3,7 +3,7 @@ from ..schemas import (
     question_model, question_namespace,
     question_with_option_model
                        )
-from ..models import Question
+from ..models import Question, admin_required
 from http import HTTPStatus
 from ..extensions import db
 from flask_jwt_extended import jwt_required
@@ -14,6 +14,7 @@ class addAndGetQuestions(Resource):
     @jwt_required()
     @question_namespace.expect(question_model)
     @question_namespace.marshal_with(question_model)
+    @admin_required
     def post(self):
         data = question_namespace.payload
 
@@ -39,6 +40,7 @@ class eachQuestions(Resource):
     @jwt_required()
     @question_namespace.expect(question_model)
     @question_namespace.marshal_with(question_model)
+    @admin_required
     def patch(self, question_id):
         question_to_update = Question.get_by_id(question_id)
         data = question_namespace.payload
@@ -48,6 +50,7 @@ class eachQuestions(Resource):
         return question_to_update
 
     @jwt_required()
+    @admin_required
     def delete(self, question_id):
         question_to_delete = Question.get_by_id(question_id)
         db.session.delete(question_to_delete)
