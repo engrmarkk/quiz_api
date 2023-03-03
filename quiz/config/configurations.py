@@ -35,8 +35,6 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite://"
 
 
-
-
 # This is the dictionary that contains the configuration object
 config_object = {"appcon": AppConfig,
-"testcon":TestConfig}
+                 "testcon": TestConfig}
