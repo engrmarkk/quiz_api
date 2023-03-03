@@ -36,7 +36,7 @@ class UserTestCase(unittest.TestCase):
 
         signup_response = self.client.post('/user/register', json=data)
         user = Users.query.filter_by(first_name=data["first_name"]).first()
-        # assert user.username == "gabuuu"
+        assert user.username == "gabuuu"
         assert user.first_name == "gabu"
         assert signup_response.status_code == 201
         
