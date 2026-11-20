@@ -130,3 +130,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .gitignore
+config.bat
+node_modules
